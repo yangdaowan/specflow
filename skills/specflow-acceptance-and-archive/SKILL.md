@@ -1,0 +1,58 @@
+---
+name: specflow-acceptance-and-archive
+description: Use when a SpecFlow feature is ready to close — runs acceptance, writes COMPLETION_REPORT.md, archives specs, and updates memory
+---
+
+# 验收、归档、更新记忆（闭环）
+
+## 目标
+
+在功能开发完成后，执行 SpecFlow 的闭环：
+1) 对照 `ACCEPTANCE.md` 执行验收（逐条有证据）
+2) 生成 `COMPLETION_REPORT.md`
+3) 将 `.specflow/specs/active/<feature>/` 归档到 `.specflow/specs/archive/<feature>/`
+4) 更新 `.specflow/memory/`（进度、上下文、关键决策）
+
+## 硬门禁
+
+- **逐条验收**：不得用“测试都过了”代替验收；必须逐条对应验收项
+- **证据优先**：每条验收项必须有可重复的验证命令或可观察输出
+- **归档不可省**：验收通过才允许归档；未通过必须回到实现阶段修正
+
+## 产出物
+
+### 1) `COMPLETION_REPORT.md`（写入到 archive 下）
+
+路径：`.specflow/specs/archive/<feature>/COMPLETION_REPORT.md`
+
+必须包含：
+- **范围回顾**：本次实现的 In Scope / 未做的 Non-Goals（保持一致）
+- **验收对照表**：每条验收项 → 证据
+- **测试与验证命令**：可复现（包含命令与关键输出摘要）
+- **风险与后续工作**：已知限制（必须与 Non-Goals 区分）
+
+### 2) 归档动作
+
+把目录整体移动：
+- 从：`.specflow/specs/active/<feature>/`
+- 到：`.specflow/specs/archive/<feature>/`
+
+归档目录最终至少包含：
+- `SPEC.md`
+- `ACCEPTANCE.md`
+- `COMPLETION_REPORT.md`
+
+### 3) memory 更新（最少 3 文件）
+
+- `.specflow/memory/progress.md`：追加一条完成记录（日期 + feature + 状态）
+- `.specflow/memory/active_context.md`：移除该 feature 的进行中描述，必要时加入下一个聚焦点
+- `.specflow/memory/decisions.md`：若本次有关键技术/产品决策，写一条短 ADR 记录（动机/选择/后果）
+
+## 与 Superpowers 的验证门禁衔接
+
+在写“验收通过/已完成”之前，必须使用 `verification-before-completion` 并运行：
+- 项目测试命令（或最小验证命令）
+- 如有：lint / build / e2e
+
+只有看到 **新鲜的** 成功输出，才允许写入“通过/完成”的结论。
+
