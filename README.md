@@ -100,3 +100,63 @@
 - **验收清单优先**：交付以验收项逐条可验证为准
 - **纪律由 Superpowers 提供**：TDD、计划、审查、验证门禁等尽量交给技能流程托底
 
+## 作为 Cursor 插件安装（自动触发）
+
+本仓库已提供 Cursor 插件清单与启动 Hook：
+
+- `.cursor-plugin/plugin.json`
+- `hooks/hooks-cursor.json`
+- `hooks/session-start`
+- `commands/`（内置命令入口：`/specflow`、`/pm`、`/ar`、`/qa`）
+
+安装后，`SessionStart` 会自动注入 SpecFlow 上下文（默认开启），无需每次手动显式触发技能。
+
+### 与 Superpowers 并存（推荐）
+
+同时安装 `Superpowers` 与 `SpecFlow` 时，默认策略为互补：
+
+- `Superpowers`：流程纪律（如何执行）
+- `SpecFlow`：规格与验收门禁（做什么、什么算完成）
+
+SpecFlow 默认会在会话启动时注入“互补模式”规则，尽量避免与 Superpowers 冲突。
+
+### 插件命令（内置）
+
+本插件提供真正的命令入口（非仅语义约定）：
+
+- `/specflow`：总入口（支持 `init new`、`init old`、`feature <name>`、`align`、`accept <name>`）
+- `/pm`：需求与规格产出模式（先 brainstorming，再产出 SPEC/ACCEPTANCE）
+- `/ar`：按规格实施模式（plans + TDD + verification）
+- `/qa`：验收归档模式（逐条证据 + COMPLETION_REPORT + archive + memory）
+
+常用示例：
+- `/specflow init new`
+- `/specflow feature user-points`
+- `/specflow align`
+- `/ar`（在已有 SPEC/ACCEPTANCE 的 feature 上进入实施）
+- `/qa`（在实施完成后执行验收归档）
+
+说明：
+- 当 `/specflow` 参数缺失或不合法时，命令会返回统一的 help 风格用法说明（Usage/Subcommands/Examples）。
+
+### 项目内开关（手动关闭/切换）
+
+项目级配置文件：`.specflow/plugin.config.json`
+
+默认内容：
+
+```json
+{
+  "enabled": true,
+  "integrationMode": "complement-superpowers",
+  "disableSuperpowers": false
+}
+```
+
+可选值：
+
+- `enabled: false`：关闭 SpecFlow 自动触发（保留已安装插件）
+- `integrationMode: "complement-superpowers"`：与 Superpowers 互补（默认）
+- `integrationMode: "specflow-only"`：本项目中优先只走 SpecFlow 工作流
+- `disableSuperpowers: true`：项目级关闭 Superpowers 自动工作流（仅在本项目生效；用户显式要求时仍可使用）
+

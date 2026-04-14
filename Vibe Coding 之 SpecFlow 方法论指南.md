@@ -45,7 +45,7 @@ SpecFlow 是 **Vibe Coding 的约束工程学派**。
 - ✅ 需要长期维护、多人协作的产品级项目。
 - ✅ 有明确交付标准和验收要求的商业项目。
 - ✅ 有架构经验、希望精准控制交付质量的开发者。
-- ❌ 快速原型验证、一次性脚本、探索性 Demo（此类场景建议直接用野生 Vibe Coding）。
+- ⚠️ 快速原型验证、一次性脚本、探索性 Demo：不建议使用“完整 SpecFlow”，但可以使用 **轻量 SpecFlow**（最小验收点 + 最小可复现验证），以避免完全失控的氛围编程。
 
 ---
 
@@ -92,6 +92,54 @@ SpecFlow 是 **Vibe Coding 的约束工程学派**。
 └── tests/                              # 测试用例（AI 生成，人类可修改）
     └── [feature-name]_test.xx
 ```
+
+---
+
+### 3.1 与 Superpowers 的关系（互补不冲突）
+
+SpecFlow 的定位是 **补充** Superpowers：
+
+- **Superpowers**：提供流程纪律（brainstorming → plan → 执行 → TDD → review → verification）
+- **SpecFlow**：提供规格治理（文档即中枢、修改即指令、验收清单、归档与记忆）
+
+两者同时启用时必须做到“绝对不冲突”，因此采用 **双文档体系并存 + 阶段主文档** 的规则。
+
+#### A) 双文档体系并存（分工明确）
+
+SpecFlow 与 Superpowers 的文档产物同时存在，且不强行合并到单一路径：
+
+- `docs/superpowers/specs/**`：设计讨论与取舍（如何做/为什么这么做）
+- `docs/superpowers/plans/**`：实施计划（按步骤怎么做）
+- `.specflow/**`：交付标准与治理（做什么/做到什么算完成/验收与归档）
+
+#### B) 阶段主文档（谁说了算）
+
+当两套文档对同一问题存在差异时，以当前阶段的“主判定来源”为准：
+
+- **需求澄清/设计阶段**：`docs/superpowers/specs/**` 为主，但必须受 `.specflow/CONSTITUTION.md` / `.specflow/RULES.md` / `.specflow/docs/*` 的约束
+- **规格冻结阶段（交付边界）**：`.specflow/specs/active/<feature>/SPEC.md` + `ACCEPTANCE.md` 为主
+- **实施阶段**：`docs/superpowers/plans/**` 为主，但不得越过 `.specflow/.../SPEC.md` 的 Non-Goals，并必须覆盖 `.specflow/.../ACCEPTANCE.md`
+- **验收/归档阶段**：`.specflow/.../ACCEPTANCE.md` 为主（逐条证据），并生成 `COMPLETION_REPORT.md`、归档与 memory 更新
+
+#### C) 不绕过 Superpowers 的硬门禁
+
+为确保过程纪律不被稀释：
+
+- 在进入实现前：必须先走 `brainstorming` 并获得人类认可
+- 任何生产代码变更：必须遵守 `test-driven-development`（先见红后写实现）
+- 在宣称“完成/通过/修复”前：必须走 `verification-before-completion`（新鲜证据）
+
+#### D) Feature 关联索引（强制）
+
+为避免“双文档体系”长期维护困难，每个 feature 必须维护索引：
+
+- `.specflow/specs/active/<feature-name>/INDEX.md`
+
+索引至少包含：
+- 对应的 `docs/superpowers/specs/**`（设计文档路径）
+- 对应的 `docs/superpowers/plans/**`（计划文档路径）
+- SpecFlow 的 `SPEC.md` / `ACCEPTANCE.md`
+- 当前阶段与主判定来源说明
 
 **文件命名规范：**
 - 核心规则文件：大写蛇形命名（`CONSTITUTION.md`, `RULES.md`）。
@@ -220,3 +268,5 @@ graph TD
 - `/specflow init old`：现有项目初始化
 - `/specflow <需求>`：直接进入工作流编排
 - `/pm` `/ar` `/qa`：角色分工执行闭环
+
+> 注：上述“口令”是跨工具通用的 **语义触发方式**。在 Cursor 中可以通过插件命令映射实现真正的内置命令；未实现映射前，仍可通过自然语言或以“/xxx”开头的文本触发同等语义流程。

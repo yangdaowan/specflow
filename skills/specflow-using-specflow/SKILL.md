@@ -11,6 +11,45 @@ description: Use when you want Superpowers to follow SpecFlow (spec-as-source-of
 
 Superpowers 提供“纪律/流程门禁”，SpecFlow 提供“做什么/做到什么标准”。本技能负责把 SpecFlow 的标准嵌入 Superpowers 的执行方式里。
 
+## 互补不冲突（强制规则）
+
+本仓库的 SpecFlow 设计目标是 **补充** Superpowers，而不是替代或覆盖。为保证“绝对不冲突”，必须遵守：
+
+### 1) 前置门禁：不绕过 Superpowers 的硬门禁
+
+- 任何“新功能/行为变更/需求澄清”在进入实现前，必须先走 `brainstorming`（设计并获得人类认可）。
+- 任何生产代码变更必须遵守 `test-driven-development`（先见红再写实现）。
+- 在宣称“完成/通过/修复”之前必须走 `verification-before-completion`（新鲜证据）。
+
+### 2) 双文档体系并存（不合并、不断言单一路径）
+
+SpecFlow 与 Superpowers 的文档产物 **同时存在**，各司其职：
+
+- `docs/superpowers/specs/**`：设计讨论与取舍（如何做、为什么这么做）
+- `docs/superpowers/plans/**`：实施计划（按步骤怎么做）
+- `.specflow/**`：规格治理与交付标准（做什么、做到什么算完成、如何验收与归档）
+
+### 3) 阶段主文档（谁说了算）
+
+当两套文档在某个点上出现表述差异时，按阶段决定“主判定来源”：
+
+- **需求澄清/设计阶段**：以 `docs/superpowers/specs/**` 为主；但必须受 `.specflow/CONSTITUTION.md` / `.specflow/RULES.md` / `.specflow/docs/*` 约束
+- **规格冻结（交付边界）阶段**：以 `.specflow/specs/active/<feature>/SPEC.md` + `ACCEPTANCE.md` 为主
+- **实施阶段**：以 `docs/superpowers/plans/**` 为主，但不得越过 `.specflow/.../SPEC.md` 的 Non-Goals，且必须覆盖 `.specflow/.../ACCEPTANCE.md`
+- **验收/归档阶段**：以 `.specflow/.../ACCEPTANCE.md` 为主（逐条有证据），并产出归档与 memory 更新
+
+### 4) Feature 关联索引（强制）
+
+为了让双文档体系长期可维护，每个 feature 必须维护一份索引文件：
+
+- `.specflow/specs/active/<feature>/INDEX.md`
+
+至少包含：
+- 对应的 `docs/superpowers/specs/**`（设计文档路径）
+- 对应的 `docs/superpowers/plans/**`（计划文档路径）
+- SpecFlow 的 `SPEC.md` / `ACCEPTANCE.md`
+- 当前阶段与主判定来源说明（简短即可）
+
 ## 何时使用
 
 当用户表达以下任一意图时使用：

@@ -1,0 +1,22 @@
+{
+  "name": "specflow",
+  "displayName": "SpecFlow",
+  "description": "Spec-as-source-of-truth workflow for Cursor; complements Superpowers with scope, acceptance, and archival gates.",
+  "version": "0.1.0",
+  "author": {
+    "name": "SpecFlow Contributors"
+  },
+  "homepage": "https://github.com/your-org/specflow",
+  "repository": "https://github.com/your-org/specflow",
+  "license": "MIT",
+  "keywords": [
+    "skills",
+    "specflow",
+    "acceptance",
+    "workflow",
+    "superpowers"
+  ],
+  "skills": "./skills/",
+  "commands": "./commands/",
+  "hooks": "./hooks/hooks-cursor.json"
+}

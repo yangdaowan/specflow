@@ -1,0 +1,68 @@
+#!/usr/bin/env bash
+# SessionStart hook for SpecFlow plugin (Cursor)
+
+set -euo pipefail
+
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+PLUGIN_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
+
+locate_project_root() {
+  local candidates=()
+  if [ -n "${CURSOR_WORKSPACE_ROOT:-}" ]; then candidates+=("${CURSOR_WORKSPACE_ROOT}"); fi
+  if [ -n "${WORKSPACE_ROOT:-}" ]; then candidates+=("${WORKSPACE_ROOT}"); fi
+  candidates+=("$(pwd)")
+
+  local c
+  for c in "${candidates[@]}"; do
+    if [ -d "${c}" ]; then
+      printf '%s' "${c}"
+      return 0
+    fi
+  done
+
+  printf '%s' "$(pwd)"
+}
+
+PROJECT_ROOT="$(locate_project_root)"
+PROJECT_CONFIG="${PROJECT_ROOT}/.specflow/plugin.config.json"
+
+specflow_enabled=true
+integration_mode="complement-superpowers"
+
+if [ -f "${PROJECT_CONFIG}" ]; then
+  if grep -Eq '"enabled"[[:space:]]*:[[:space:]]*false' "${PROJECT_CONFIG}"; then
+    specflow_enabled=false
+  fi
+
+  if grep -Eq '"integrationMode"[[:space:]]*:[[:space:]]*"specflow-only"' "${PROJECT_CONFIG}"; then
+    integration_mode="specflow-only"
+  fi
+fi
+
+escape_for_json() {
+  local s="$1"
+  s="${s//\\/\\\\}"
+  s="${s//\"/\\\"}"
+  s="${s//$'\n'/\\n}"
+  s="${s//$'\r'/\\r}"
+  s="${s//$'\t'/\\t}"
+  printf '%s' "$s"
+}
+
+if [ "${specflow_enabled}" = "false" ]; then
+  session_context="<IMPORTANT>\nSpecFlow plugin is disabled by project config at .specflow/plugin.config.json (enabled=false). Do not trigger SpecFlow skills automatically in this session.\n</IMPORTANT>"
+else
+  using_specflow_content=$(cat "${PLUGIN_ROOT}/skills/specflow-using-specflow/SKILL.md" 2>&1 || echo "Error reading specflow-using-specflow skill")
+  using_specflow_escaped=$(escape_for_json "${using_specflow_content}")
+
+  if [ "${integration_mode}" = "specflow-only" ]; then
+    session_context="<EXTREMELY_IMPORTANT>\nSpecFlow plugin is active in SPECFLOW-ONLY mode.\n\nUse SpecFlow skills as the default workflow in this project.\n\nStart from specflow-using-specflow and follow the relevant SpecFlow skills by task phase.\n\n${using_specflow_escaped}\n</EXTREMELY_IMPORTANT>"
+  else
+    session_context="<EXTREMELY_IMPORTANT>\nSpecFlow plugin is active in COMPLEMENT-SUPERPOWERS mode.\n\nCompatibility rule:\n1) Superpowers skills define process discipline (how to execute).\n2) SpecFlow skills define source-of-truth scope and acceptance gates (what to deliver).\n3) When both are installed, use both. Resolve overlap by keeping Superpowers for process and SpecFlow for scope/acceptance.\n\nStart with specflow-using-specflow whenever the user intent involves requirements, acceptance, or archive lifecycle.\n\n${using_specflow_escaped}\n</EXTREMELY_IMPORTANT>"
+  fi
+fi
+
+session_context_escaped=$(escape_for_json "${session_context}")
+printf '{\n  "additional_context": "%s"\n}\n' "${session_context_escaped}"
+
+exit 0
