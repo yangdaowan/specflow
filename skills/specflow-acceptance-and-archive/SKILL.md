@@ -1,6 +1,6 @@
 ---
 name: specflow-acceptance-and-archive
-description: Use when a SpecFlow feature is ready to close — runs acceptance, writes COMPLETION_REPORT.md, archives specs, and updates memory
+description: Use when a SpecFlow feature is ready to close and you must produce itemized acceptance evidence, archive specs, and update memory
 ---
 
 # 验收、归档、更新记忆（闭环）
@@ -18,6 +18,8 @@ description: Use when a SpecFlow feature is ready to close — runs acceptance, 
 - **逐条验收**：不得用“测试都过了”代替验收；必须逐条对应验收项
 - **证据优先**：每条验收项必须有可重复的验证命令或可观察输出
 - **归档不可省**：验收通过才允许归档；未通过必须回到实现阶段修正
+- **完成声明管控**：未通过验收前，禁止使用“已完成/已修复/可以交付”
+- **体验与可读性同等门禁**：功能正确不足以宣称完成；必须同时满足交互稳定、信息可读、结构合理
 
 ## 产出物
 
@@ -30,6 +32,11 @@ description: Use when a SpecFlow feature is ready to close — runs acceptance, 
 - **验收对照表**：每条验收项 → 证据
 - **测试与验证命令**：可复现（包含命令与关键输出摘要）
 - **风险与后续工作**：已知限制（必须与 Non-Goals 区分）
+- **Completion Response Contract**：
+  1) What changed
+  2) Why
+  3) How to verify
+  4) Risks / Limitations
 
 ### 2) 归档动作
 
@@ -55,4 +62,21 @@ description: Use when a SpecFlow feature is ready to close — runs acceptance, 
 - 如有：lint / build / e2e
 
 只有看到 **新鲜的** 成功输出，才允许写入“通过/完成”的结论。
+
+## 交付质量验收基线（补足纯“接口可用”偏差）
+
+在逐条验收时，至少补充检查：
+
+- **需求一致性**：功能行为、信息展示、交互体验、结构关系是否与需求一致
+- **i18n/L10n**：无 key 泄漏、无 `Invalid Date`/`NaN`/原始对象直出、枚举值可读化
+- **UI 可读性**：分组与留白、字段标签和值、空值兜底、异常值兜底
+- **状态生命周期**：重复打开关闭稳定、模式切换正确、路由切换/回退可预期、异步竞态可控
+- **数据规范化**：展示前完成类型与格式规范化，避免后端原始结构直出
+- **回归**：主修复点 + 关联模块 + 异常路径，避免“修 A 坏 B”
+
+## 禁止事项
+
+- 禁止“应该可以/大概率/看起来没问题”式完成结论
+- 禁止忽略用户明确提出的体验、布局、可读性问题
+- 禁止无证据宣称完成
 

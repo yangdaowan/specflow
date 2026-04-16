@@ -1,6 +1,6 @@
 ---
 name: specflow-using-specflow
-description: Use when you want Superpowers to follow SpecFlow (spec-as-source-of-truth) — chooses lightweight vs full-flow gates, defines required artifacts and role commands
+description: Use when you need SpecFlow governance (scope, acceptance, archive, doc-change alignment) to complement Superpowers process skills in a repo
 ---
 
 # SpecFlow for Superpowers (总览与分流)
@@ -50,6 +50,47 @@ SpecFlow 与 Superpowers 的文档产物 **同时存在**，各司其职：
 - SpecFlow 的 `SPEC.md` / `ACCEPTANCE.md`
 - 当前阶段与主判定来源说明（简短即可）
 
+### 5) 初始化硬门禁（强制，优先级高）
+
+在任何 SpecFlow 语义已触发的会话里，必须先做以下检查：
+
+- 若项目根目录不存在 `.specflow/`，或缺少以下关键文件：
+  - `.specflow/CONSTITUTION.md`
+  - `.specflow/RULES.md`
+  - `.specflow/docs/PRD.md`
+  - `.specflow/docs/NFR.md`
+  - `.specflow/memory/progress.md`
+- 则 **不得** 继续执行 SpecFlow 的写规格/实施/验收流程，必须先执行 `specflow-initialize-project`。
+
+只有初始化完成后，才允许进入：
+- `specflow-write-spec-and-acceptance`
+- `specflow-implement-from-spec`
+- `specflow-acceptance-and-archive`
+
+### 6) 禁止错误映射（强制）
+
+以下映射是错误行为，必须禁止：
+
+- 把 `docs/superpowers/plans/**` 当作 `.specflow/docs/PRD.md`
+- 把 `docs/superpowers/specs/**` 当作 `.specflow/specs/active/<feature>/SPEC.md`
+
+规则：
+- Superpowers 文档只作为“设计/计划过程文档”
+- SpecFlow 文档必须真实落地在 `.specflow/**` 下（缺失就先初始化再生成）
+
+### 7) 颗粒度分层（强制）
+
+为保证互补而不是重叠，必须遵守以下颗粒度分层：
+
+- **SpecFlow 颗粒度：功能点（Capability）**
+  - 一个 `.specflow/specs/active/<feature>/` 对应一个可独立验收的业务功能点。
+- **Superpowers 颗粒度：模块/任务执行**
+  - `docs/superpowers/specs/**` 和 `docs/superpowers/plans/**` 可按模块、子模块、2-5 分钟任务拆解。
+
+禁止：
+- 用“模块级拆分”替代 SpecFlow 的 feature 能力边界
+- 把一个 SpecFlow feature 写成跨多个独立功能点的“大杂烩”
+
 ## 何时使用
 
 当用户表达以下任一意图时使用：
@@ -89,12 +130,29 @@ SpecFlow 与 Superpowers 的文档产物 **同时存在**，各司其职：
 - 完工后：`.specflow/specs/archive/<feature>/...` + `COMPLETION_REPORT.md`
 - `.specflow/memory/progress.md`、`.specflow/memory/active_context.md`、`.specflow/memory/decisions.md`
 
-## 角色口令（跨工具一致）
+## 命令入口（统一）
 
-在对话中识别并遵循以下角色切换语义（不依赖具体平台实现）：
-- `/pm`：产出/维护 PRD、SPEC、ACCEPTANCE
-- `/ar`：产出实施计划、测试、代码，严格对齐规则与验收
-- `/qa`：对照验收执行验证，产出报告，归档与更新 memory
+在 Cursor 插件落地形态下，命令入口统一为 `/specflow ...`。
+
+## Karpathy 四原则（作为执行风格约束层）
+
+在不改变 SpecFlow + Superpowers 既有分工的前提下，默认叠加以下约束：
+
+1) **Think Before Coding（先澄清再实现）**
+- 有歧义先澄清，不允许静默假设后直接开工
+- 若存在多种实现解释，先给出选项与取舍，再由人类确认
+
+2) **Simplicity First（最小可行实现）**
+- 只做本次需求与验收明确要求的内容
+- 通过 `Non-Goals` 与验收清单共同抑制“提前抽象/提前扩展”
+
+3) **Surgical Changes（手术式改动）**
+- 改动范围仅覆盖本次目标，不做顺手重构与风格漂移
+- 每一处改动都必须能追溯到 SPEC/ACCEPTANCE 的某条要求
+
+4) **Goal-Driven Execution（目标驱动执行）**
+- 将任务写成“步骤 -> 验证”的闭环
+- 无验证证据不允许给出“完成/已修复”结论
 
 ## 接下来该用哪个技能（本技能的出口）
 

@@ -26,15 +26,20 @@ Interpret user arguments in this order:
 - Reconstruct draft docs from current codebase, then ask user to review and correct.
 
 3) `feature <name>`:
+- If `.specflow/` is missing or core files are missing, run `specflow-initialize-project` first.
 - Ensure feature path is `.specflow/specs/active/<name>/`.
 - Start from `specflow-write-spec-and-acceptance` unless SPEC and ACCEPTANCE already exist.
 - Ensure `.specflow/specs/active/<name>/INDEX.md` exists using the SpecFlow index template and links the related Superpowers design/plan docs.
+- Never substitute `docs/superpowers/specs/**` for `.specflow/specs/active/<name>/SPEC.md`.
+- If SPEC/ACCEPTANCE exist but INDEX is missing, create INDEX before continuing.
 
 4) `align`:
 - Use `specflow-document-alignment`.
 - Produce a concise alignment receipt before implementation changes.
 
 5) `accept <name>`:
+- Require `.specflow/specs/active/<name>/SPEC.md`, `ACCEPTANCE.md`, and `INDEX.md` before acceptance flow.
+- If any are missing, stop and ask user to run `/specflow feature <name>` first.
 - Use `specflow-acceptance-and-archive`.
 - Enforce evidence-per-item acceptance and verification-before-completion before any success claim.
 
@@ -70,6 +75,9 @@ Examples:
   /specflow align
   /specflow accept user-points
 ```
+
+Note:
+- SpecFlow uses `/specflow ...` as the single command entrypoint.
 
 If arguments are malformed, respond with:
 - A one-line error

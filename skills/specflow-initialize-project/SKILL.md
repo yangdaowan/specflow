@@ -1,6 +1,6 @@
 ---
 name: specflow-initialize-project
-description: Use when adopting SpecFlow in a repo — creates/aligns the spec-as-source-of-truth folder structure and core docs with minimal placeholders
+description: Use when a repo needs SpecFlow `.specflow/` structure and core docs initialized or repaired (new project or retrofit)
 ---
 
 # SpecFlow 初始化 / 现有项目改造
@@ -57,6 +57,7 @@ description: Use when adopting SpecFlow in a repo — creates/aligns the spec-as
 - `.specflow/templates/NFR_TEMPLATE.md`
 - `.specflow/templates/SPEC_TEMPLATE.md`
 - `.specflow/templates/ACCEPTANCE_TEMPLATE.md`
+- `.specflow/templates/INDEX_TEMPLATE.md`
 - `.specflow/templates/COMPLETION_REPORT_TEMPLATE.md`
 - `.specflow/templates/PROGRESS_TEMPLATE.md`
 - `.specflow/templates/ACTIVE_CONTEXT_TEMPLATE.md`
@@ -70,7 +71,7 @@ description: Use when adopting SpecFlow in a repo — creates/aligns the spec-as
 - 本技能目录已内置模板：`skills/specflow-initialize-project/templates/`
 - 初始化时应优先将内置模板复制到项目的 `.specflow/templates/`，以保证跨项目一致性
 
-## 现有项目改造（OpenSpec 风格）
+## 现有项目改造
 
 当项目已有代码但缺文档时：
 - 先扫描代码与现有 README / 配置，生成 `.specflow/docs/PRD.md / .specflow/CONSTITUTION.md / .specflow/RULES.md` 的**草稿**
@@ -81,10 +82,10 @@ description: Use when adopting SpecFlow in a repo — creates/aligns the spec-as
 以下文件/目录在仓库内真实存在，且模板不含空泛占位词：
 - 目录：`.specflow/docs/`, `.specflow/specs/active/`, `.specflow/specs/archive/`, `.specflow/memory/`, `.specflow/templates/`
 - 文件：`.specflow/AGENTS.md`, `.specflow/CONSTITUTION.md`, `.specflow/RULES.md`, `.specflow/docs/PRD.md`, `.specflow/docs/NFR.md`
-- 模板：`.specflow/templates/SPEC_TEMPLATE.md`, `.specflow/templates/ACCEPTANCE_TEMPLATE.md`, `.specflow/templates/COMPLETION_REPORT_TEMPLATE.md`
+- 模板：`.specflow/templates/SPEC_TEMPLATE.md`, `.specflow/templates/ACCEPTANCE_TEMPLATE.md`, `.specflow/templates/INDEX_TEMPLATE.md`, `.specflow/templates/COMPLETION_REPORT_TEMPLATE.md`
 
 ## 下一步
 
-初始化完成后，开始一个功能规格：
-- 使用 `specflow-write-spec-and-acceptance`
+初始化完成后，若进入功能交付流程：
+- 先按 Superpowers `brainstorming` 完成设计确认，再使用 `specflow-write-spec-and-acceptance` 落地 .specflow 规格文档。
 

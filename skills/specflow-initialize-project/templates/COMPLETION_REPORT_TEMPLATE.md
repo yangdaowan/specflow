@@ -38,6 +38,12 @@
 - 已知限制：
 - 风险与缓解：
 
+## Completion Response Contract（必须）
+- What changed：
+- Why：
+- How to verify：
+- Risks / Limitations：
+
 ## 后续工作（可选）
 - 
 

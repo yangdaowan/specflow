@@ -1,6 +1,6 @@
 ---
 name: specflow-write-spec-and-acceptance
-description: Use when turning a feature request into SPEC.md + ACCEPTANCE.md — produces unambiguous scope, non-goals, edge cases, and verifiable acceptance checklist
+description: Use when a feature needs `.specflow/specs/active/<feature>/SPEC.md` and `ACCEPTANCE.md` written or updated (scope + verifiable acceptance)
 ---
 
 # 写 SPEC 与验收清单（SpecFlow 标准化产出）
@@ -15,10 +15,20 @@ description: Use when turning a feature request into SPEC.md + ACCEPTANCE.md —
 
 ## 约束（硬门禁）
 
+- **先澄清再写规格**：如果需求存在歧义，必须先列出假设或备选解释，并向人类确认后再写 SPEC
 - **SPEC 必须可实现**：禁止愿景化语言；每条都要能映射到实现与测试
 - **验收必须可验证**：每条验收项都必须说明“如何验证/看到什么结果”
 - **显式非目标**：必须写 Non-Goals，防止 AI 过度实现
+- **最小复杂度优先**：不写“未来可能需要”的提前设计；仅保留当前交付所需约束
 - **边界与错误路径**：必须覆盖常见失败模式（输入无效、依赖失败、权限不足等）
+- **颗粒度必须是单一功能点**：一个 `<feature-name>` 只承载一个可独立验收的业务能力，不得把多个独立功能点并入同一 SPEC
+
+## 颗粒度判定（先判定再写）
+
+写 SPEC 前先问：该需求是否可被“一个验收清单”完整覆盖且可独立上线/验收？
+
+- 若 **是**：可作为一个 feature 写入 `.specflow/specs/active/<feature-name>/`
+- 若 **否**：必须拆成多个 feature，每个 feature 各自维护 `SPEC.md` + `ACCEPTANCE.md`
 
 ## 产出模板（必须遵守）
 
@@ -101,7 +111,9 @@ description: Use when turning a feature request into SPEC.md + ACCEPTANCE.md —
 
 ## 自检清单（写完必须自查）
 
+- [ ] 关键歧义已被明确（或记录假设并获确认）
 - [ ] SPEC 有明确 In Scope / Non-Goals
+- [ ] 规格未引入本次需求之外的“提前扩展”条目
 - [ ] SPEC 覆盖边界与错误路径
 - [ ] ACCEPTANCE 每条都有验证方式
 - [ ] 术语在两份文件中一致（同一概念不换词）

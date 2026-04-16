@@ -12,3 +12,9 @@
 - 新增/变更行为必须先写测试（TDD）
 - 回归测试必须覆盖关键验收项与失败路径
 
+## AI 执行约束（Karpathy 风格）
+- Think Before Coding：有歧义先澄清，不允许静默假设后直接实现
+- Simplicity First：最小可行实现，禁止提前抽象与未来功能预埋
+- Surgical Changes：仅改本次需求相关代码，每个改动需可追溯到需求/验收项
+- Goal-Driven Execution：任务拆分为“步骤 -> 验证”，无证据不宣称完成
+

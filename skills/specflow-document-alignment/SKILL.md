@@ -1,6 +1,6 @@
 ---
 name: specflow-document-alignment
-description: Use when spec or rules docs change (CONSTITUTION/RULES/PRD/SPEC/ACCEPTANCE/memory) — re-read diffs, assess impact, and realign plans, tests, and code
+description: Use when `.specflow/**` docs changed and you must re-align plans/tests/code to the new document constraints (modification is instruction)
 ---
 
 # 文档变更对齐（修改即指令）

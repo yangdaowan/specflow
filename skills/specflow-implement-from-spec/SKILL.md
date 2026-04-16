@@ -1,6 +1,6 @@
 ---
 name: specflow-implement-from-spec
-description: Use when implementing work from SPEC.md + ACCEPTANCE.md — enforces doc alignment, TDD loop, and acceptance mapping; produces completion evidence
+description: Use when implementing a feature from `.specflow` SPEC/ACCEPTANCE and you must map acceptance items to evidence (tests/commands/manual steps)
 ---
 
 # 按规格实施（Spec → TDD → 验收对照）
@@ -17,6 +17,8 @@ description: Use when implementing work from SPEC.md + ACCEPTANCE.md — enforce
 - **TDD 强制**：任何生产代码变更前必须先写会失败的测试，并亲眼确认失败原因正确
 - **验收映射**：每条验收项必须能指向：测试 / 命令 / 手工步骤（至少其一）
 - **禁止过度实现**：严格遵守 SPEC 的 Non-Goals
+- **手术式改动**：只改本次目标所需代码；禁止顺手重构、风格漂移、无关优化
+- **步骤即验证**：实现计划中的每一步都必须绑定验证检查（step -> verify）
 
 ## 推荐执行路径（与 Superpowers 技能衔接）
 
@@ -29,6 +31,16 @@ description: Use when implementing work from SPEC.md + ACCEPTANCE.md — enforce
 
 3) 完成前验证  
    - 使用 `verification-before-completion`：在任何“完成/修复/通过”声明前必须跑验证命令并阅读输出
+
+## Goal-Driven 执行模板（推荐）
+
+将实现步骤写成以下形式，避免“大步快跑后统一补测”：
+
+```text
+1. [实现步骤] -> verify: [测试/命令/可观察结果]
+2. [实现步骤] -> verify: [测试/命令/可观察结果]
+3. [实现步骤] -> verify: [测试/命令/可观察结果]
+```
 
 ## 验收对照输出（必交付）
 
