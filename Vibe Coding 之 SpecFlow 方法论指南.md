@@ -63,7 +63,8 @@ SpecFlow 是 **Vibe Coding 的约束工程学派**。
 │   │
 │   ├── docs/
 │   │   ├── PRD.md                      # 产品需求全景图
-│   │   └── NFR.md                      # 非功能性需求（性能、安全、可观测性）
+│   │   ├── NFR.md                      # 非功能性需求（性能、安全、可观测性）
+│   │   └── DESIGN.md                   # UI/UX 设计基线（视觉、组件、交互、响应式）
 │   │
 │   ├── specs/
 │   │   ├── active/                     # 进行中的功能
@@ -247,6 +248,17 @@ graph TD
 
 ---
 
+### 五点七、设计基线前置（UI 质量前移）
+
+为避免“实现完成后才发现前端质量失控”，SpecFlow 增加前置设计约束：
+
+- 若任务涉及前端/UI，实现前必须读取 `.specflow/docs/DESIGN.md`
+- 可在设计阶段参考外部设计模板（如 DESIGN.md 风格库），但最终必须固化回项目内 `DESIGN.md`
+- 页面级偏离规则应记录在 feature 文档中，并在验收中逐条核对
+- 验收时除功能正确外，还需检查 Design Conformance（颜色、字阶、组件、交互、响应式）
+
+---
+
 ### 六、操作口令表（工具通用版）
 
 | 场景 | 口令模板 |
@@ -271,6 +283,7 @@ graph TD
 - `RULES_TEMPLATE.md`（技术规范模板）
 - `PRD_TEMPLATE.md`（产品需求模板）
 - `NFR_TEMPLATE.md`（非功能性需求模板）
+- `DESIGN_TEMPLATE.md`（UI/UX 设计基线模板）
 - `SPEC_TEMPLATE.md`（功能规格模板）
 - `ACCEPTANCE_TEMPLATE.md`（验收清单模板）
 - `PROGRESS_TEMPLATE.md`（进度追踪模板）

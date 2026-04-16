@@ -11,6 +11,7 @@
 
 - **Spec**: `.specflow/specs/active/<feature-name>/SPEC.md`
 - **Acceptance**: `.specflow/specs/active/<feature-name>/ACCEPTANCE.md`
+- **Design Baseline**: `.specflow/docs/DESIGN.md`
 
 ## Stage Authority (Conflict Resolution)
 

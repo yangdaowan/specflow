@@ -41,6 +41,7 @@ description: Use when a repo needs SpecFlow `.specflow/` structure and core docs
 `.specflow/docs/`：
 - `.specflow/docs/PRD.md`（产品全景图，面向需求拆解）
 - `.specflow/docs/NFR.md`（性能/安全/可观测性/可用性/扩展性指标）
+- `.specflow/docs/DESIGN.md`（UI/UX 设计基线，约束视觉、组件、交互和响应式）
 
 `.specflow/memory/`：
 - `.specflow/memory/progress.md`（整体进度）
@@ -55,6 +56,7 @@ description: Use when a repo needs SpecFlow `.specflow/` structure and core docs
 - `.specflow/templates/RULES_TEMPLATE.md`
 - `.specflow/templates/PRD_TEMPLATE.md`
 - `.specflow/templates/NFR_TEMPLATE.md`
+- `.specflow/templates/DESIGN_TEMPLATE.md`
 - `.specflow/templates/SPEC_TEMPLATE.md`
 - `.specflow/templates/ACCEPTANCE_TEMPLATE.md`
 - `.specflow/templates/INDEX_TEMPLATE.md`
@@ -83,6 +85,7 @@ description: Use when a repo needs SpecFlow `.specflow/` structure and core docs
 - 目录：`.specflow/docs/`, `.specflow/specs/active/`, `.specflow/specs/archive/`, `.specflow/memory/`, `.specflow/templates/`
 - 文件：`.specflow/AGENTS.md`, `.specflow/CONSTITUTION.md`, `.specflow/RULES.md`, `.specflow/docs/PRD.md`, `.specflow/docs/NFR.md`
 - 模板：`.specflow/templates/SPEC_TEMPLATE.md`, `.specflow/templates/ACCEPTANCE_TEMPLATE.md`, `.specflow/templates/INDEX_TEMPLATE.md`, `.specflow/templates/COMPLETION_REPORT_TEMPLATE.md`
+- 设计：`.specflow/docs/DESIGN.md`（由 `.specflow/templates/DESIGN_TEMPLATE.md` 初始化）
 
 ## 下一步
 
