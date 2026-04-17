@@ -9,6 +9,9 @@
 ## 进行中
 - <feature> - in progress
 
+## 待用户验收确认
+- <feature> - awaiting user acceptance (since YYYY-MM-DD)
+
 ## 待办
 - 
 

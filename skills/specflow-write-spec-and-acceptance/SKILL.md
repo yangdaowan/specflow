@@ -13,6 +13,10 @@ description: Use when a feature needs `.specflow/specs/active/<feature>/SPEC.md`
 
 它们必须足够具体，使实现者无需再猜测“做什么/做到什么程度”。
 
+同时确保项目级 PRD 持续同步：
+- `.specflow/docs/PRD.md` 是**项目级文档**，不是 feature 级文档
+- 新增/变更 feature 时，必须同步 PRD 的功能清单与范围说明
+
 ## 约束（硬门禁）
 
 - **先澄清再写规格**：如果需求存在歧义，必须先列出假设或备选解释，并向人类确认后再写 SPEC
@@ -22,6 +26,7 @@ description: Use when a feature needs `.specflow/specs/active/<feature>/SPEC.md`
 - **最小复杂度优先**：不写“未来可能需要”的提前设计；仅保留当前交付所需约束
 - **边界与错误路径**：必须覆盖常见失败模式（输入无效、依赖失败、权限不足等）
 - **颗粒度必须是单一功能点**：一个 `<feature-name>` 只承载一个可独立验收的业务能力，不得把多个独立功能点并入同一 SPEC
+- **PRD 项目级同步**：feature 建立或范围变化后，必须同步 `.specflow/docs/PRD.md` 的“功能清单/需求范围”
 
 ## 颗粒度判定（先判定再写）
 
@@ -118,6 +123,12 @@ description: Use when a feature needs `.specflow/specs/active/<feature>/SPEC.md`
 - [ ] ACCEPTANCE 每条都有验证方式
 - [ ] 术语在两份文件中一致（同一概念不换词）
 - [ ] 没有 “TBD / TODO / 适当处理 / 之后补充”
+- [ ] `.specflow/docs/PRD.md` 已同步反映该 feature（至少有一条功能清单或范围更新）
+
+## 验收标记
+
+- 通过项：[√]
+- 不通过项：[x]
 
 ## 下一步
 

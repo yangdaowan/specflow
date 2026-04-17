@@ -35,6 +35,7 @@ SpecFlow docs under `.specflow/**` are the delivery spec, acceptance, archive, a
 
 - Superpowers provides process discipline (brainstorming → plan → execution → TDD → verification).
 - SpecFlow provides scope/acceptance/archive governance (what to deliver, what is “done”).
+- PRD is project-level source (`.specflow/docs/PRD.md`), not feature-level; feature closure must sync PRD feature list.
 
 When both are installed, use both:
 - Keep Superpowers for process gates.

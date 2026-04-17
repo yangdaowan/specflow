@@ -13,6 +13,8 @@ description: Use when a SpecFlow feature is ready to close and you must produce 
 3) 将 `.specflow/specs/active/<feature>/` 归档到 `.specflow/specs/archive/<feature>/`
 4) 更新 `.specflow/memory/`（进度、上下文、关键决策）
 
+当用户明确表达“某功能验收通过”时（例如“需求池功能验收通过”），应**直接进入本技能闭环执行**，不要再次只给“建议执行 /specflow accept ...”。
+
 ## 硬门禁
 
 - **逐条验收**：不得用“测试都过了”代替验收；必须逐条对应验收项
@@ -20,6 +22,7 @@ description: Use when a SpecFlow feature is ready to close and you must produce 
 - **归档不可省**：验收通过才允许归档；未通过必须回到实现阶段修正
 - **完成声明管控**：未通过验收前，禁止使用“已完成/已修复/可以交付”
 - **体验与可读性同等门禁**：功能正确不足以宣称完成；必须同时满足交互稳定、信息可读、结构合理
+- **PRD 项目级回写**：验收通过并归档时，必须同步 `.specflow/docs/PRD.md` 的功能清单/范围状态
 
 ## 产出物
 
@@ -55,6 +58,16 @@ description: Use when a SpecFlow feature is ready to close and you must produce 
 - `.specflow/memory/active_context.md`：移除该 feature 的进行中描述，必要时加入下一个聚焦点
 - `.specflow/memory/decisions.md`：若本次有关键技术/产品决策，写一条短 ADR 记录（动机/选择/后果）
 
+此外增加“验收等待态”与“验收完成态”可见性：
+- 在等待用户验收输入时，`.specflow/memory/active_context.md` 必须写明 `awaiting_user_acceptance`
+- 在验收完成后，将该等待态标记为已结束并更新下一聚焦点
+
+### 4) PRD 同步（项目级，强制）
+
+验收通过后，必须更新 `.specflow/docs/PRD.md`，至少包含：
+- 该 feature 在“功能清单”中的记录（名称、状态、关联 SPEC/ACCEPTANCE）
+- 该 feature 相关范围是否进入已交付状态
+
 ## 与 Superpowers 的验证门禁衔接
 
 在写“验收通过/已完成”之前，必须使用 `verification-before-completion` 并运行：
@@ -79,4 +92,5 @@ description: Use when a SpecFlow feature is ready to close and you must produce 
 - 禁止“应该可以/大概率/看起来没问题”式完成结论
 - 禁止忽略用户明确提出的体验、布局、可读性问题
 - 禁止无证据宣称完成
+- 禁止在用户已明确“验收通过”后，仅回复“建议执行 /specflow accept ...”而不进入闭环
 
