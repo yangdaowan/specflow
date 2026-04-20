@@ -18,7 +18,7 @@ Superpowers 提供“纪律/流程门禁”，SpecFlow 提供“做什么/做到
 ### 1) 前置门禁：不绕过 Superpowers 的硬门禁
 
 - 任何“新功能/行为变更/需求澄清”在进入实现前，必须先走 `brainstorming`（设计并获得人类认可）。
-- 任何生产代码变更必须遵守 `test-driven-development`（先见红再写实现）。
+- 任何生产代码变更必须遵守 `test-driven-development`（先测试通过再写实现）。
 - 在宣称“完成/通过/修复”之前必须走 `verification-before-completion`（新鲜证据）。
 
 ### 2) 双文档体系并存（不合并、不断言单一路径）
@@ -90,6 +90,21 @@ SpecFlow 与 Superpowers 的文档产物 **同时存在**，各司其职：
 禁止：
 - 用“模块级拆分”替代 SpecFlow 的 feature 能力边界
 - 把一个 SpecFlow feature 写成跨多个独立功能点的“大杂烩”
+
+### 8) 缺失规格恢复策略（强制）
+
+当项目已有 `.specflow/` 与 PRD，但某次修改命中的 feature 缺少 `SPEC.md`/`ACCEPTANCE.md` 时，必须执行“按需补全”而非全量重建：
+
+- **初始化阶段**：`specflow-initialize-project` 只修复项目级骨架与核心文档
+- **功能/验收阶段**：若发现 feature 规格缺失，立即调用 `specflow-write-spec-and-acceptance` 进行最小补全
+- **验收阶段**：`specflow-acceptance-and-archive` 先检查规格齐备性，不齐则先补后验收
+- **可选巡检**：低频扫描 PRD feature 清单与 active specs 的差集，产出待补齐列表（报告即可，不阻塞当前任务）
+
+### 9) 验收提交规则（强制）
+
+- 每成功验收一个 `.specflow/specs/active/<feature>/`，必须立即执行一次 git 提交
+- 提交信息必须使用简体中文，并遵循 Conventional Commits：`<type>(<scope>): <subject>`
+- 不允许将多个 feature 的“验收归档”合并为一次提交
 
 ## 何时使用
 
