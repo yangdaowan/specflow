@@ -45,6 +45,10 @@ description: Use when `.specflow/**` docs changed and you must re-align plans/te
 
 > 原则：**DRY / YAGNI**。只做让实现重新与文档一致所必需的最小修改。
 
+补充（feature 规格缺失场景）：
+- 若 `.specflow/docs/PRD.md` 新增/修改了某 feature，但 `.specflow/specs/active/<feature>/SPEC.md` 或 `ACCEPTANCE.md` 缺失，必须把“补齐规格文档”列为 **必须改测试/验收** 的前置动作
+- 补齐动作应调用 `specflow-write-spec-and-acceptance`（最小补全模式），而不是尝试在本技能内直接跳到实现或归档
+
 ### 4) 产出“对齐回执”（强制）
 
 在开始写代码前，必须输出一段对齐回执（可在回复中，或写入 `.specflow/memory/active_context.md`）：

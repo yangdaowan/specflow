@@ -17,6 +17,22 @@ description: Use when a feature needs `.specflow/specs/active/<feature>/SPEC.md`
 - `.specflow/docs/PRD.md` 是**项目级文档**，不是 feature 级文档
 - 新增/变更 feature 时，必须同步 PRD 的功能清单与范围说明
 
+## 触发模式（新增）
+
+### 模式 A：标准写规格
+
+适用于新功能或需求明确的功能迭代，按完整结构产出 `SPEC.md` + `ACCEPTANCE.md`。
+
+### 模式 B：最小补全（Patch Recovery）
+
+适用于“功能已在改/已验收，但该 feature 缺少 `.specflow/specs/active/<feature>/` 规格文档”的场景。
+
+要求：
+- 先产出最小可用的 `SPEC.md`（Goal/In Scope/Non-Goals/关键边界）
+- 必须产出可验证的 `ACCEPTANCE.md`（建议 3-8 条，逐条可给出验证方式）
+- 必须创建/更新 `INDEX.md`，补齐与 `docs/superpowers/specs/**`、`docs/superpowers/plans/**`、`.specflow/docs/PRD.md` 的关联
+- 允许先满足“可验收最小闭环”，再在后续迭代补全更详细规格
+
 ## 约束（硬门禁）
 
 - **先澄清再写规格**：如果需求存在歧义，必须先列出假设或备选解释，并向人类确认后再写 SPEC

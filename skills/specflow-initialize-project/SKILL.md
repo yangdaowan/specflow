@@ -9,6 +9,12 @@ description: Use when a repo needs SpecFlow `.specflow/` structure and core docs
 
 在仓库中建立 SpecFlow 的“唯一事实来源”文档体系（统一迁移到 `.specflow/` 中枢目录），使后续所有 AI 行为都能被 **文档约束**、被 **验收清单验证**、并能在完工时 **归档与更新记忆**。
 
+## 职责边界（强制）
+
+- `specflow-initialize-project` 只负责“项目级骨架初始化/修复”，不负责把所有 feature 自动还原为 `.specflow/specs/active/<feature>/SPEC.md` + `ACCEPTANCE.md`
+- feature 级规格缺失的补齐，必须在功能入口/验收入口按需触发（见 `specflow-write-spec-and-acceptance` 与 `specflow-acceptance-and-archive`）
+- 禁止在初始化阶段强制全项目代码深扫来推断全部 feature（成本高、噪音大、误判率高）
+
 ## 前置规则
 
 - **文档是指令**：人类对文档的任何修改，自动视为最新指令；后续行为必须重新对齐
@@ -78,6 +84,10 @@ description: Use when a repo needs SpecFlow `.specflow/` structure and core docs
 当项目已有代码但缺文档时：
 - 先扫描代码与现有 README / 配置，生成 `.specflow/docs/PRD.md / .specflow/CONSTITUTION.md / .specflow/RULES.md` 的**草稿**
 - 让人类快速修正关键误解后，才开始写具体功能规格
+
+补充约束（避免职责漂移）：
+- 可从历史文档恢复“项目级全景”（如 PRD/NFR），但不要求一次性恢复每个 feature 的 `SPEC.md`/`ACCEPTANCE.md`
+- 若用户随后进入“某功能实施/验收”，再按该 feature 即时补齐规格文档
 
 ## 退出条件（本技能完成的证据）
 
