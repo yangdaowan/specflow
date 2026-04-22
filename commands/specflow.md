@@ -7,25 +7,22 @@ Use this command as the SpecFlow workflow router.
 First response format (always):
 - `Mode:` `complement-superpowers` or `specflow-only` (read from `.specflow/plugin.config.json` when available)
 - `Superpowers auto-flow:` `enabled` or `disabled` (from `disableSuperpowers`)
-- `Selected route:` one of `init new`, `init old`, `feature <name>`, `align`, `accept <name>`
+- `Selected route:` one of `init`, `feature <name>`, `align`, `accept <name>`
 
 Argument parsing rules:
 - Trim leading/trailing spaces.
 - Treat multiple spaces as one separator.
-- Case-insensitive match for `init`, `new`, `old`, `feature`, `align`, `accept`.
+- Case-insensitive match for `init`, `feature`, `align`, `accept`.
 - Preserve `<name>` as kebab-case feature name; if invalid, ask user to provide a kebab-case name.
 
 Interpret user arguments in this order:
 
-1) `init new`:
-- Use `specflow-initialize-project` to initialize a new project with `.specflow/` structure and templates.
+1) `init`:
+- Use `specflow-initialize-project` as a universal initializer for both new and existing projects.
 - Keep Superpowers compatibility: do not introduce steps that bypass `brainstorming`, `test-driven-development`, or `verification-before-completion`.
+- Initialize/repair only project-level SpecFlow skeleton and core docs; do not force full feature-level reconstruction during init.
 
-2) `init old`:
-- Use `specflow-initialize-project` in existing-project mode.
-- Reconstruct draft docs from current codebase, then ask user to review and correct.
-
-3) `feature <name>`:
+2) `feature <name>`:
 - If `.specflow/` is missing or core files are missing, run `specflow-initialize-project` first.
 - Ensure feature path is `.specflow/specs/active/<name>/`.
 - Start from `specflow-write-spec-and-acceptance` unless SPEC and ACCEPTANCE already exist.
@@ -33,20 +30,19 @@ Interpret user arguments in this order:
 - Never substitute `docs/superpowers/specs/**` for `.specflow/specs/active/<name>/SPEC.md`.
 - If SPEC/ACCEPTANCE exist but INDEX is missing, create INDEX before continuing.
 
-4) `align`:
+3) `align`:
 - Use `specflow-document-alignment`.
 - Produce a concise alignment receipt before implementation changes.
 
-5) `accept <name>`:
-- Require `.specflow/specs/active/<name>/SPEC.md`, `ACCEPTANCE.md`, and `INDEX.md` before acceptance flow.
-- If any are missing, stop and ask user to run `/specflow feature <name>` first.
+4) `accept <name>`:
+- Check `.specflow/specs/active/<name>/SPEC.md`, `ACCEPTANCE.md`, and `INDEX.md` before acceptance flow.
+- If any are missing, trigger `specflow-write-spec-and-acceptance` in minimal patch-recovery mode, then continue acceptance.
 - Use `specflow-acceptance-and-archive`.
 - Enforce evidence-per-item acceptance and verification-before-completion before any success claim.
 
 If no recognized subcommand is provided:
 - Ask one concise clarifying question with options:
-  - `init new`
-  - `init old`
+  - `init`
   - `feature <name>`
   - `align`
   - `accept <name>`
@@ -56,21 +52,19 @@ If no recognized subcommand is provided:
 SpecFlow Command Help
 
 Usage:
-  /specflow init new
-  /specflow init old
+  /specflow init
   /specflow feature <feature-name>
   /specflow align
   /specflow accept <feature-name>
 
 Subcommands:
-  init new              Initialize new project SpecFlow structure
-  init old              Initialize SpecFlow for existing project
+  init                  Initialize/repair project SpecFlow structure
   feature <name>        Start or continue feature spec workflow
   align                 Re-align code/tests/plan to changed docs
   accept <name>         Run acceptance, archive, and memory updates
 
 Examples:
-  /specflow init new
+  /specflow init
   /specflow feature user-points
   /specflow align
   /specflow accept user-points
@@ -82,8 +76,7 @@ Note:
 If arguments are malformed, respond with:
 - A one-line error
 - A valid usage list:
-  - `/specflow init new`
-  - `/specflow init old`
+  - `/specflow init`
   - `/specflow feature <feature-name>`
   - `/specflow align`
   - `/specflow accept <feature-name>`

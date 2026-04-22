@@ -263,13 +263,13 @@ graph TD
 
 | 场景 | 口令模板 |
 | :--- | :--- |
-| **初始化项目** | `“/specflow init new（新项目）或 /specflow init old（现有项目）。”` |
+| **初始化项目** | `“/specflow init（通用初始化，覆盖新项目与现有项目）。”` |
 | **拆解功能** | `“/specflow feature <feature-name>。根据 .specflow/docs/PRD.md 与规则，生成/更新 SPEC.md 与 ACCEPTANCE.md（并维护 INDEX.md）。”` |
 | **开始开发** | `“在 SPEC/ACCEPTANCE 完整且 INDEX 已就位后，按 specflow-implement-from-spec 实施；需要计划时使用 writing-plans。”` |
 | **执行验收** | `“/specflow accept <feature-name>。逐条对照 ACCEPTANCE.md 生成证据与完工报告，并归档与更新 memory。”` |
 | **指出不符** | `“验收项 X.X 与 ACCEPTANCE.md 不符，具体表现为 [描述]，请修正代码并重新验收。”` |
-| **技术变更** | `“我修改了 .specflow/RULES.md 中的 [某部分]，请重新扫描所有相关代码，确保对齐新规范。”` |
-| **现有项目** | `“/specflow init old 后，扫描整个项目，还原 .specflow/docs/PRD.md、.specflow/CONSTITUTION.md、.specflow/RULES.md 草稿。然后我将提出修改需求。”` |
+| **技术变更** | `“我修改了 .specflow/RULES.md 中的 [某部分]，请先产出对齐回执并按需对齐相关代码/测试，不做不必要全量重扫。”` |
+| **现有项目** | `“先执行 /specflow init（通用初始化），完成 .specflow 项目级骨架与核心文档草稿，然后我将提出修改需求。”` |
 | **归档功能** | `“/specflow accept <feature-name>。验收通过后生成完工报告，归档至 .specflow/specs/archive，更新 .specflow/memory。”` |
 
 ---
