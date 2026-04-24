@@ -1,0 +1,19 @@
+{
+  "name": "specflow",
+  "description": "Spec-as-source-of-truth workflow for Claude Code; complements Superpowers with scope, acceptance, archival gates, and document alignment.",
+  "version": "0.1.0",
+  "author": {
+    "name": "SpecFlow Contributors"
+  },
+  "homepage": "https://github.com/yangdaowan/specflow",
+  "repository": "https://github.com/yangdaowan/specflow",
+  "license": "MIT",
+  "keywords": [
+    "skills",
+    "specflow",
+    "acceptance",
+    "workflow",
+    "superpowers"
+  ]
+}
+

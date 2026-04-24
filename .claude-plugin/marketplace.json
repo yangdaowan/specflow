@@ -1,0 +1,19 @@
+{
+  "name": "specflow-dev",
+  "description": "Development marketplace for SpecFlow workflow plugin",
+  "owner": {
+    "name": "SpecFlow Contributors"
+  },
+  "plugins": [
+    {
+      "name": "specflow",
+      "description": "Spec-as-source-of-truth workflow for Claude Code; complements Superpowers with scope, acceptance, archival gates, and document alignment.",
+      "version": "0.1.0",
+      "source": "./",
+      "author": {
+        "name": "SpecFlow Contributors"
+      }
+    }
+  ]
+}
+
