@@ -30,7 +30,13 @@ if %ERRORLEVEL% equ 0 (
     exit /b %ERRORLEVEL%
 )
 
-REM No bash found - exit silently rather than error (plugin still works, just without SessionStart injection)
+REM No bash found - fall back to PowerShell hook if present
+if exist "%HOOK_DIR%session-start.ps1" (
+    powershell -NoProfile -ExecutionPolicy Bypass -File "%HOOK_DIR%session-start.ps1"
+    exit /b %ERRORLEVEL%
+)
+
+REM No fallback hook found - exit silently rather than error
 exit /b 0
 CMDBLOCK
 
@@ -39,18 +45,3 @@ SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 SCRIPT_NAME="$1"
 shift
 exec bash "${SCRIPT_DIR}/${SCRIPT_NAME}" "$@"
-
-@echo off
-setlocal enabledelayedexpansion
-
-set "HOOK_NAME=%~1"
-set "SCRIPT_DIR=%~dp0"
-
-if "%HOOK_NAME%"=="" (
-  echo Missing hook name argument 1>&2
-  exit /b 1
-)
-
-shift
-bash "%SCRIPT_DIR%%HOOK_NAME%" %*
-exit /b %errorlevel%

@@ -110,4 +110,13 @@ $skillContent
 }
 
 $escaped = Escape-ForJson $sessionContext
-Write-Output "{`n  `"additional_context`": `"$escaped`"`n}"
+if ($env:CURSOR_PLUGIN_ROOT) {
+  # Cursor platform payload
+  Write-Output "{`n  `"additional_context`": `"$escaped`"`n}"
+} elseif ($env:CLAUDE_PLUGIN_ROOT -and -not $env:COPILOT_CLI) {
+  # Claude Code platform payload
+  Write-Output "{`n  `"hookSpecificOutput`": {`n    `"hookEventName`": `"SessionStart`",`n    `"additionalContext`": `"$escaped`"`n  }`n}"
+} else {
+  # SDK standard payload
+  Write-Output "{`n  `"additionalContext`": `"$escaped`"`n}"
+}
