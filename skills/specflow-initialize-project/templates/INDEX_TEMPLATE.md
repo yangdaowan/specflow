@@ -17,7 +17,7 @@
 
 When the documents disagree, decide the source of truth by stage:
 
-- **Design / Clarification**: `docs/superpowers/specs/**` (constrained by `.specflow/CONSTITUTION.md`, `.specflow/RULES.md`, `.specflow/docs/*`)
+- **Design / Clarification**: `docs/superpowers/specs/**` (constrained by `.specflow/SPECFLOW.md`, `.specflow/docs/*`)
 - **Spec Freeze (Delivery Boundary)**: `.specflow/specs/active/<feature>/SPEC.md` + `ACCEPTANCE.md`
 - **Implementation**: `docs/superpowers/plans/**` (must not violate Spec Non-Goals; must cover Acceptance)
 - **Acceptance / Archive**: `.specflow/specs/active/<feature>/ACCEPTANCE.md` (evidence per item)

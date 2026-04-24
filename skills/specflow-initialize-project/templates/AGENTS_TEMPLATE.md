@@ -3,8 +3,7 @@
 ## 核心铁律
 1. `.specflow/` 是唯一事实来源目录。任何修改都视为最新指令，后续必须自动对齐。
 2. 所有实现必须对齐：
-   - `.specflow/CONSTITUTION.md`
-   - `.specflow/RULES.md`
+   - `.specflow/SPECFLOW.md`
    - 当前功能：`.specflow/specs/active/<feature>/SPEC.md` 与 `ACCEPTANCE.md`
 3. 交付以验收清单逐条可验证为准；不得用“应该/大概/看起来”代替证据。
 

@@ -44,8 +44,7 @@ SpecFlow plugin is disabled by project config at .specflow/plugin.config.json (e
 "@
 } else {
   $requiredSpecflowPaths = @(
-    ".specflow/CONSTITUTION.md",
-    ".specflow/RULES.md",
+    ".specflow/SPECFLOW.md",
     ".specflow/docs/PRD.md",
     ".specflow/docs/NFR.md",
     ".specflow/memory/progress.md"

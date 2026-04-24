@@ -14,8 +14,7 @@ description: Use when `.specflow/**` docs changed and you must re-align plans/te
 当出现任一信号就必须使用本技能：
 - 用户说“我改了/更新了/补充了”某份文档
 - 你检测到以下文件发生变化（新增/修改/重命名均算）：
-  - `.specflow/CONSTITUTION.md`
-  - `.specflow/RULES.md`
+  - `.specflow/SPECFLOW.md`
   - `.specflow/docs/PRD.md`, `.specflow/docs/NFR.md`（或 `.specflow/docs/**/*.md`）
   - `.specflow/specs/active/**/SPEC.md`
   - `.specflow/specs/active/**/ACCEPTANCE.md`

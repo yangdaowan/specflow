@@ -33,7 +33,7 @@ SpecFlow 与 Superpowers 的文档产物 **同时存在**，各司其职：
 
 当两套文档在某个点上出现表述差异时，按阶段决定“主判定来源”：
 
-- **需求澄清/设计阶段**：以 `docs/superpowers/specs/**` 为主；但必须受 `.specflow/CONSTITUTION.md` / `.specflow/RULES.md` / `.specflow/docs/*` 约束
+- **需求澄清/设计阶段**：以 `docs/superpowers/specs/**` 为主；但必须受 `.specflow/SPECFLOW.md` / `.specflow/docs/*` 约束
 - **规格冻结（交付边界）阶段**：以 `.specflow/specs/active/<feature>/SPEC.md` + `ACCEPTANCE.md` 为主
 - **实施阶段**：以 `docs/superpowers/plans/**` 为主，但不得越过 `.specflow/.../SPEC.md` 的 Non-Goals，且必须覆盖 `.specflow/.../ACCEPTANCE.md`
 - **验收/归档阶段**：以 `.specflow/.../ACCEPTANCE.md` 为主（逐条有证据），并产出归档与 memory 更新
@@ -55,8 +55,7 @@ SpecFlow 与 Superpowers 的文档产物 **同时存在**，各司其职：
 在任何 SpecFlow 语义已触发的会话里，必须先做以下检查：
 
 - 若项目根目录不存在 `.specflow/`，或缺少以下关键文件：
-  - `.specflow/CONSTITUTION.md`
-  - `.specflow/RULES.md`
+  - `.specflow/SPECFLOW.md`
   - `.specflow/docs/PRD.md`
   - `.specflow/docs/NFR.md`
   - `.specflow/memory/progress.md`
@@ -134,12 +133,12 @@ SpecFlow 与 Superpowers 的文档产物 **同时存在**，各司其职：
 
 **门禁（完整集合）：**
 - 文档体系为唯一事实来源
-- 开发前必须对齐：`.specflow/CONSTITUTION.md`、`.specflow/RULES.md`、当前功能 `SPEC.md` + `ACCEPTANCE.md`
+- 开发前必须对齐：`.specflow/SPECFLOW.md`、当前功能 `SPEC.md` + `ACCEPTANCE.md`
 - 实施必须遵循 TDD（写测试→见红→最小实现→见绿→重构）
 - 验收通过后必须：归档 + 完工报告 + memory 更新
 
 **产出物（完整）：**
-- `.specflow/AGENTS.md`、`.specflow/CONSTITUTION.md`、`.specflow/RULES.md`
+- `.specflow/SPECFLOW.md`
 - `.specflow/docs/PRD.md`、`.specflow/docs/NFR.md`
 - `.specflow/specs/active/<feature>/SPEC.md`、`.specflow/specs/active/<feature>/ACCEPTANCE.md`
 - 完工后：`.specflow/specs/archive/<feature>/...` + `COMPLETION_REPORT.md`

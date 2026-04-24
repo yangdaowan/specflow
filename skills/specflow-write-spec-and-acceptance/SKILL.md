@@ -51,6 +51,19 @@ description: Use when a feature needs `.specflow/specs/active/<feature>/SPEC.md`
 - 若 **是**：可作为一个 feature 写入 `.specflow/specs/active/<feature-name>/`
 - 若 **否**：必须拆成多个 feature，每个 feature 各自维护 `SPEC.md` + `ACCEPTANCE.md`
 
+### 与 Superpowers 大规格的分工（必须遵守）
+
+当 Superpowers 的设计/规格文档是“大主题/全链路闭环”（例如 “EventPulse V1 MVP 全链路闭环”）时：
+
+- **Superpowers**：允许覆盖端到端全链路，用于澄清范围、流程与取舍
+- **SpecFlow**：必须拆成多个 capability feature，每个都能独立验收与归档
+
+EventPulse 拆分示例（仅示例，按实际需求调整）：
+- `newsnow-api-integration`
+- `web-search-event-details`
+- `event-value-judgement`
+- `event-dedup-and-ranking`
+
 ## 产出模板（必须遵守）
 
 ### SPEC.md 结构
@@ -140,6 +153,7 @@ description: Use when a feature needs `.specflow/specs/active/<feature>/SPEC.md`
 - [ ] 术语在两份文件中一致（同一概念不换词）
 - [ ] 没有 “TBD / TODO / 适当处理 / 之后补充”
 - [ ] `.specflow/docs/PRD.md` 已同步反映该 feature（至少有一条功能清单或范围更新）
+- [ ] 若上游 Superpowers spec 为“大主题”，已拆分为多个 capability feature（未把全链路写进一个 SPEC）
 
 ## 验收标记
 

@@ -16,8 +16,7 @@ This is the minimal bootstrap skill injected at session start. It must stay shor
 If the project is missing `.specflow/` or any core files, **stop** and run `specflow-initialize-project` before doing SpecFlow spec/implementation/acceptance work.
 
 Core files (minimum):
-- `.specflow/CONSTITUTION.md`
-- `.specflow/RULES.md`
+- `.specflow/SPECFLOW.md`
 - `.specflow/docs/PRD.md`
 - `.specflow/docs/NFR.md`
 - `.specflow/memory/progress.md`
