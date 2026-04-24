@@ -45,7 +45,15 @@ description: Use when implementing a feature from `.specflow` SPEC/ACCEPTANCE an
   - 将 `<feature-name>` 记录到 `进行中`
 
 当进入等待用户验收输入阶段（实现完成但未验收）时，应把状态更新为：
-- `awaiting-user-acceptance`
+- `awaiting_human_review`
+
+同时生成跨平台“验收会话包”（Review Packet）：
+- `.specflow/reviews/<feature>/REVIEW.md`
+- `.specflow/reviews/<feature>/STATUS.json`
+- `.specflow/reviews/<feature>/EVIDENCE.md`
+
+`STATUS.json` 状态流转最小集合：
+- `draft` -> `awaiting_human_review` -> `approved` / `rejected` -> `archived_committed`
 
 ## Goal-Driven 执行模板（推荐）
 

@@ -73,6 +73,9 @@ description: Use when a repo needs SpecFlow `.specflow/` structure and core docs
 - `.specflow/templates/ACCEPTANCE_TEMPLATE.md`
 - `.specflow/templates/INDEX_TEMPLATE.md`
 - `.specflow/templates/COMPLETION_REPORT_TEMPLATE.md`
+- `.specflow/templates/REVIEW_TEMPLATE.md`
+- `.specflow/templates/STATUS_TEMPLATE.json`
+- `.specflow/templates/EVIDENCE_TEMPLATE.md`
 - `.specflow/templates/PROGRESS_TEMPLATE.md`
 - `.specflow/templates/ACTIVE_CONTEXT_TEMPLATE.md`
 - `.specflow/templates/DECISIONS_TEMPLATE.md`（可选）
@@ -128,7 +131,7 @@ description: Use when a repo needs SpecFlow `.specflow/` structure and core docs
 以下文件/目录在仓库内真实存在，且模板不含空泛占位词：
 - 目录：`.specflow/docs/`, `.specflow/specs/active/`, `.specflow/specs/archive/`, `.specflow/memory/`, `.specflow/templates/`
 - 文件：`.specflow/SPECFLOW.md`, `.specflow/docs/PRD.md`, `.specflow/docs/NFR.md`
-- 模板：`.specflow/templates/SPECFLOW_TEMPLATE.md`, `.specflow/templates/SPEC_TEMPLATE.md`, `.specflow/templates/ACCEPTANCE_TEMPLATE.md`, `.specflow/templates/INDEX_TEMPLATE.md`, `.specflow/templates/COMPLETION_REPORT_TEMPLATE.md`
+- 模板：`.specflow/templates/SPECFLOW_TEMPLATE.md`, `.specflow/templates/SPEC_TEMPLATE.md`, `.specflow/templates/ACCEPTANCE_TEMPLATE.md`, `.specflow/templates/INDEX_TEMPLATE.md`, `.specflow/templates/COMPLETION_REPORT_TEMPLATE.md`, `.specflow/templates/REVIEW_TEMPLATE.md`, `.specflow/templates/STATUS_TEMPLATE.json`, `.specflow/templates/EVIDENCE_TEMPLATE.md`
 - 设计：`.specflow/docs/DESIGN.md`（由 `.specflow/templates/DESIGN_TEMPLATE.md` 初始化）
 
 ## 下一步

@@ -10,9 +10,25 @@
   - `/specflow feature <feature-name>`：生成/更新 SPEC + ACCEPTANCE + INDEX
   - `/specflow align`：文档变更对齐（输出对齐回执后才可改代码）
   - `/specflow accept <feature-name>`：验收→证据→归档→memory→PRD→git commit
+  - `/specflow approve <feature-name>`：人类确认验收通过并推进归档闭环
+  - `/specflow reject <feature-name>`：人类驳回验收并回到修复流程
 
 - **文档是指令**：人类修改 `.specflow/**` 任一文档即视为最新指令，必须重新对齐。
 - **不绕过 Superpowers**：brainstorming → writing-plans → TDD → verification-before-completion。
+
+## 1.1) 跨平台验收协议（Plan-like but platform-agnostic）
+
+不要依赖平台 UI 自动弹窗。统一使用 Review Packet：
+- `.specflow/reviews/<feature>/REVIEW.md`（人读入口）
+- `.specflow/reviews/<feature>/STATUS.json`（机读状态）
+- `.specflow/reviews/<feature>/EVIDENCE.md`（证据索引）
+
+状态机：
+- `draft` -> `awaiting_human_review` -> `approved` / `rejected` -> `archived_committed`
+
+人类确认契约（必须结构化）：
+- `APPROVE <feature-name>`
+- `REJECT <feature-name>: <reason>`
 
 ## 2) 项目级规格（Project-level Source of Truth）
 

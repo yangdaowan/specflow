@@ -13,6 +13,8 @@ description: Use when a SpecFlow feature is ready to close and you must produce 
 3) 将 `.specflow/specs/active/<feature>/` 归档到 `.specflow/specs/archive/<feature>/`
 4) 更新 `.specflow/memory/`（进度、上下文、关键决策）
 
+跨平台约束：验收流程必须依赖 Review Packet + 状态机，而非平台 UI 按钮能力。
+
 当用户明确表达“某功能验收通过”时（例如“需求池功能验收通过”），应**直接进入本技能闭环执行**，不要再次只给“建议执行 /specflow accept ...”。
 
 ## 硬门禁
@@ -25,6 +27,9 @@ description: Use when a SpecFlow feature is ready to close and you must produce 
 - **体验与可读性同等门禁**：功能正确不足以宣称完成；必须同时满足交互稳定、信息可读、结构合理
 - **PRD 项目级回写**：验收通过并归档时，必须同步 `.specflow/docs/PRD.md` 的功能清单/范围状态
 - **闭环必须提交 Git**：验收通过 + 归档 + memory/PRD 更新后，必须形成一次 git commit；未提交不得宣称闭环完成
+- **人类确认契约**：必须收到结构化确认后才能推进归档：
+  - `APPROVE <feature-name>`
+  - `REJECT <feature-name>: <reason>`
 
 ## 产出物
 
@@ -81,6 +86,19 @@ description: Use when a SpecFlow feature is ready to close and you must produce 
 验收通过后，必须更新 `.specflow/docs/PRD.md`，至少包含：
 - 该 feature 在“功能清单”中的记录（名称、状态、关联 SPEC/ACCEPTANCE）
 - 该 feature 相关范围是否进入已交付状态
+
+### 4.1) Review Packet 状态机（强制）
+
+验收入口与归档必须维护：
+- `.specflow/reviews/<feature>/STATUS.json`
+
+状态流转：
+- `draft` -> `awaiting_human_review` -> `approved` / `rejected` -> `archived_committed`
+
+规则：
+- 未到 `approved` 状态前，禁止归档与完成声明
+- 收到 `REJECT` 后，状态置为 `rejected`，并回到实现修复流程
+- 归档+提交成功后，状态置为 `archived_committed`
 
 ### 5) Git 提交（强制）
 

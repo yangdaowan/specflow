@@ -1,0 +1,18 @@
+{
+  "feature": "<feature-name>",
+  "state": "draft",
+  "updatedAt": "YYYY-MM-DDTHH:mm:ssZ",
+  "review": {
+    "required": true,
+    "decision": "pending",
+    "reviewer": "",
+    "comment": ""
+  },
+  "artifacts": {
+    "spec": ".specflow/specs/active/<feature-name>/SPEC.md",
+    "acceptance": ".specflow/specs/active/<feature-name>/ACCEPTANCE.md",
+    "review": ".specflow/reviews/<feature-name>/REVIEW.md",
+    "evidence": ".specflow/reviews/<feature-name>/EVIDENCE.md"
+  }
+}
+
