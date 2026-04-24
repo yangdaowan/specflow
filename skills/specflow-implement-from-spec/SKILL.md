@@ -16,7 +16,7 @@ description: Use when implementing a feature from `.specflow` SPEC/ACCEPTANCE an
 - **先读文档再动代码**：实现前必须完整读取当前 feature 的 `SPEC.md` 与 `ACCEPTANCE.md`
 - **前端任务先读 DESIGN**：若本次改动涉及 UI/前端，必须先读取 `.specflow/docs/DESIGN.md`（若存在页面级覆盖规则则优先页面规则）
 - **memory 不得是空模板**：开始实施前，必须确保 `.specflow/memory/active_context.md` 与 `.specflow/memory/progress.md` 已写入当前 feature 与状态（至少 `in-progress`）；若仍是空模板，先补齐再进入实现
-- **TDD 强制**：任何生产代码变更前必须先写会失败的测试，并亲眼确认失败原因正确
+- **TDD 强制**：任何生产代码变更前必须先写测试并确认失败（见红），且失败原因与预期变更一致
 - **验收映射**：每条验收项必须能指向：测试 / 命令 / 手工步骤（至少其一）
 - **禁止过度实现**：严格遵守 SPEC 的 Non-Goals
 - **手术式改动**：只改本次目标所需代码；禁止顺手重构、风格漂移、无关优化
