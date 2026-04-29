@@ -1,0 +1,10 @@
+{
+  "plugins": {
+    "superpowers": {
+      "enabled": false
+    },
+    "specflow": {
+      "enabled": false
+    }
+  }
+}
