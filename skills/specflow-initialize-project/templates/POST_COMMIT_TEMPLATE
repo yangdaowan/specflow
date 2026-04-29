@@ -1,0 +1,63 @@
+#!/usr/bin/env bash
+# SpecFlow post-commit hook
+# Detects .specflow doc changes and writes sync trigger file for next SessionStart.
+set -euo pipefail
+
+ROOT=$(git rev-parse --show-toplevel 2>/dev/null) || exit 0
+SPECFLOW_DIR="${ROOT}/.specflow"
+TRIGGER_FILE="${SPECFLOW_DIR}/.sync-trigger.json"
+
+# Get files changed in the last commit
+CHANGED=$(git diff-tree --no-commit-id -r --name-only HEAD 2>/dev/null || echo "")
+
+# Check if any SpecFlow doc paths changed
+PM_CHANGED=$(echo "$CHANGED" | grep -E '^\.specflow/pm-docs/' 2>/dev/null || true)
+SPEC_CHANGED=$(echo "$CHANGED" | grep -E '^\.specflow/specs/' 2>/dev/null || true)
+
+if [ -z "$PM_CHANGED" ] && [ -z "$SPEC_CHANGED" ]; then
+  exit 0
+fi
+
+# Determine direction
+DIRECTION="both"
+if [ -n "$PM_CHANGED" ] && [ -z "$SPEC_CHANGED" ]; then
+  DIRECTION="doc-to-code"
+elif [ -z "$PM_CHANGED" ] && [ -n "$SPEC_CHANGED" ]; then
+  DIRECTION="code-to-doc"
+fi
+
+# Collect affected features (extract folder name after pm-docs/ or specs/active/)
+FEATURES=$(echo "$PM_CHANGED $SPEC_CHANGED" | grep -oE '(pm-docs|specs/active)/([^/]+)' | cut -d/ -f2 | sort -u | tr '\n' ' ' | sed 's/ $//')
+
+# Build JSON arrays manually (no jq dependency)
+CHANGED_JSON=""
+for f in $PM_CHANGED $SPEC_CHANGED; do
+  CHANGED_JSON="${CHANGED_JSON}\"$f\","
+done
+CHANGED_JSON=$(echo "$CHANGED_JSON" | sed 's/,$//')
+
+FEAT_JSON=""
+for f in $FEATURES; do
+  FEAT_JSON="${FEAT_JSON}\"$f\","
+done
+FEAT_JSON=$(echo "$FEAT_JSON" | sed 's/,$//')
+
+COMMIT_HASH=$(git rev-parse HEAD)
+COMMIT_MSG=$(git log -1 --format=%s HEAD)
+TIMESTAMP=$(date -u +%Y-%m-%dT%H:%M:%SZ)
+
+mkdir -p "$SPECFLOW_DIR"
+
+cat > "$TRIGGER_FILE" << TRIGEOF
+{
+  "version": "1",
+  "triggered_at": "${TIMESTAMP}",
+  "commit": "${COMMIT_HASH}",
+  "direction": "${DIRECTION}",
+  "changed_files": [${CHANGED_JSON}],
+  "affected_features": [${FEAT_JSON}],
+  "summary": "${COMMIT_MSG}"
+}
+TRIGEOF
+
+exit 0

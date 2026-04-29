@@ -6,6 +6,14 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 PLUGIN_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
 
+## Project root detection
+locate_project_root() {
+  if [ -n "${CURSOR_WORKSPACE_ROOT:-}" ]; then echo "${CURSOR_WORKSPACE_ROOT}"; return 0; fi
+  if [ -n "${WORKSPACE_ROOT:-}" ]; then echo "${WORKSPACE_ROOT}"; return 0; fi
+  echo "$(pwd)"
+}
+PROJECT_ROOT="$(locate_project_root)"
+
 escape_for_json() {
     local s="$1"
     s="${s//\\/\\\\}"
@@ -19,7 +27,21 @@ escape_for_json() {
 # Read injected bootstrap content (keep it minimal)
 bootstrap_content=$(cat "${PLUGIN_ROOT}/skills/specflow-session-bootstrap/SKILL.md" 2>&1 || echo "Error reading specflow-session-bootstrap skill")
 
-session_context="<EXTREMELY_IMPORTANT>\nSpecFlow plugin is installed.\n\nBelow is the full content of your 'specflow-session-bootstrap' skill. Use it as the entrypoint for SpecFlow governance and gates:\n\n$(escape_for_json "$bootstrap_content")\n</EXTREMELY_IMPORTANT>"
+## Sync trigger detection
+sync_context=""
+SYNC_TRIGGER_FILE="${PROJECT_ROOT}/.specflow/.sync-trigger.json"
+if [ -f "${SYNC_TRIGGER_FILE}" ]; then
+  direction=$(grep -o '"direction"[[:space:]]*:[[:space:]]*"[^"]*"' "${SYNC_TRIGGER_FILE}" 2>/dev/null | head -1 | sed 's/.*"\([^"]*\)"$/\1/' || echo "")
+  affected=$(grep -o '"affected_features"[[:space:]]*:[[:space:]]*\[[^]]*\]' "${SYNC_TRIGGER_FILE}" 2>/dev/null | head -1 || echo "")
+  summary=$(grep -o '"summary"[[:space:]]*:[[:space:]]*"[^"]*"' "${SYNC_TRIGGER_FILE}" 2>/dev/null | head -1 | sed 's/.*"summary"[[:space:]]*:[[:space:]]*"\([^"]*\)"/\1/' || echo "")
+  if [ -n "${direction}" ]; then
+    sync_context="\n\n--- SYNC TRIGGER DETECTED ---\ndirection: ${direction}\naffected: ${affected}\nsummary: ${summary}\n\nAction required: Run specflow-pm-doc-sync before any other specflow action. Use /specflow sync to trigger manually, or proceed with the alignment automatically.\n--- END SYNC TRIGGER ---"
+  fi
+  # Remove trigger file to prevent re-triggering
+  rm -f "${SYNC_TRIGGER_FILE}"
+fi
+
+session_context="<EXTREMELY_IMPORTANT>\nSpecFlow plugin is installed.\n\nBelow is the full content of your 'specflow-session-bootstrap' skill. Use it as the entrypoint for SpecFlow governance and gates:\n\n$(escape_for_json "$bootstrap_content")${sync_context}\n</EXTREMELY_IMPORTANT>"
 
 # Output platform-specific hook payload (match superpowers behavior)
 if [ -n "${CURSOR_PLUGIN_ROOT:-}" ]; then

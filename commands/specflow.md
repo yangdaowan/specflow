@@ -7,7 +7,7 @@ Use this command as the SpecFlow workflow router.
 First response format (always):
 - `Mode:` `complement-superpowers` or `specflow-only` (read from `.specflow/plugin.config.json` when available)
 - `Superpowers auto-flow:` `enabled` or `disabled` (from `disableSuperpowers`)
-- `Selected route:` one of `init`, `feature <name>`, `align`, `accept <name>`, `approve <name>`, `reject <name>`
+- `Selected route:` one of `init`, `feature <name>`, `align`, `sync`, `accept <name>`, `approve <name>`, `reject <name>`, `deliverables <name>`
 
 Argument parsing rules:
 - Trim leading/trailing spaces.
@@ -49,14 +49,29 @@ Interpret user arguments in this order:
 - Update `.specflow/reviews/<name>/STATUS.json` decision to `rejected`.
 - Stop closure flow and return to `specflow-implement-from-spec` with explicit remediation items.
 
+7) `sync`:
+- Use `specflow-pm-doc-sync`.
+- Check `.specflow/.sync-trigger.json` for direction and affected features (if exists).
+- If no sync trigger file, ask user for direction: `doc-to-code` or `code-to-doc`.
+- Accept optional `--direction doc-to-code|code-to-doc` argument.
+- Produce sync receipt after completion.
+
+8) `deliverables <name>`:
+- Check `.specflow/specs/archive/<name>/` or `.specflow/specs/active/<name>/` exists.
+- Use `specflow-generate-deliverables`.
+- Generate 7 GB/T 8567 documents to `.specflow/deliverables/<name>/`.
+- Report generated file paths.
+
 If no recognized subcommand is provided:
 - Ask one concise clarifying question with options:
   - `init`
   - `feature <name>`
   - `align`
+  - `sync`
   - `accept <name>`
   - `approve <name>`
   - `reject <name>`
+  - `deliverables <name>`
 - Also print this help-style block:
 
 ```text
@@ -66,25 +81,31 @@ Usage:
   /specflow init
   /specflow feature <feature-name>
   /specflow align
+  /specflow sync [--direction doc-to-code|code-to-doc]
   /specflow accept <feature-name>
   /specflow approve <feature-name>
   /specflow reject <feature-name>
+  /specflow deliverables <feature-name>
 
 Subcommands:
   init                  Initialize/repair project SpecFlow structure
   feature <name>        Start or continue feature spec workflow
   align                 Re-align code/tests/plan to changed docs
+  sync                  Bidirectional sync between PM docs and SPEC/ACCEPTANCE
   accept <name>         Run acceptance, archive, and memory updates
   approve <name>        Human confirms acceptance decision and continues closure
   reject <name>         Human rejects acceptance decision and sends feature back
+  deliverables <name>   Generate GB/T 8567 formal documents for a feature
 
 Examples:
   /specflow init
   /specflow feature user-points
   /specflow align
+  /specflow sync --direction doc-to-code
   /specflow accept user-points
   /specflow approve user-points
   /specflow reject user-points
+  /specflow deliverables user-points
 ```
 
 Note:
@@ -96,7 +117,9 @@ If arguments are malformed, respond with:
   - `/specflow init`
   - `/specflow feature <feature-name>`
   - `/specflow align`
+  - `/specflow sync [--direction doc-to-code|code-to-doc]`
   - `/specflow accept <feature-name>`
   - `/specflow approve <feature-name>`
   - `/specflow reject <feature-name>`
+  - `/specflow deliverables <feature-name>`
 - And include the same `SpecFlow Command Help` block.

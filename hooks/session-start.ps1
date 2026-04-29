@@ -43,6 +43,32 @@ SpecFlow plugin is disabled by project config at .specflow/plugin.config.json (e
 </IMPORTANT>
 "@
 } else {
+  # Sync trigger detection (before building main context)
+  $syncContext = ""
+  $syncTriggerFile = Join-Path $projectRoot ".specflow/.sync-trigger.json"
+  if (Test-Path $syncTriggerFile) {
+    try {
+      $triggerJson = Get-Content -Raw -Path $syncTriggerFile -Encoding UTF8 | ConvertFrom-Json
+      $direction = $triggerJson.direction
+      $affected = ($triggerJson.affected_features -join ", ")
+      $summary = $triggerJson.summary
+      if ($direction) {
+        $syncContext = @"
+
+--- SYNC TRIGGER DETECTED ---
+direction: $direction
+affected_features: $affected
+summary: $summary
+
+Action required: Run specflow-pm-doc-sync before any other specflow action. Use /specflow sync to trigger manually, or proceed with the alignment automatically.
+--- END SYNC TRIGGER ---
+"@
+      }
+    } catch { }
+    # Remove trigger file to prevent re-triggering
+    Remove-Item $syncTriggerFile -Force -ErrorAction SilentlyContinue
+  }
+
   $requiredSpecflowPaths = @(
     ".specflow/SPECFLOW.md",
     ".specflow/docs/PRD.md",
@@ -79,6 +105,7 @@ SpecFlow plugin is active in SPECFLOW-ONLY mode.
 
 Use SpecFlow skills as the default workflow in this project.
 $initGuard
+$syncContext
 
 Start from specflow-session-bootstrap and follow the relevant SpecFlow skills by task phase.
 
@@ -100,6 +127,7 @@ Compatibility rule:
 2) SpecFlow skills define source-of-truth scope and acceptance gates (what to deliver).
 3) $superpowersRule
 $initGuard
+$syncContext
 
 Start with specflow-session-bootstrap whenever the user intent involves requirements, acceptance, or archive lifecycle.
 
